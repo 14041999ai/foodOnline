@@ -17,6 +17,9 @@ def registerUser(request):
             user.save()
             return  redirect('registerUser')
 
+        else:
+            print(f"field.errors {form.errors}")
+            print(f"non_field error {form.non_field_errors}")
             # first_name = form.cleaned_data["first_name"]
             # last_name = form.cleaned_data["last_name"]
             # username = form.cleaned_data["username"]
