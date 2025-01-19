@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
+from django.contrib import messages
 from .forms import UserForm
 from .models import User
 
@@ -14,10 +15,8 @@ def registerUser(request):
             user.role = User.CUSTOMER
             user.set_password(password)
             user.save()
+            messages.add_message(request, messages.SUCCESS, "Your account has been created successfully")
             return  redirect('registerUser')
-
-        else:
-            print(f"non_field error {form.non_field_errors}")
     else:
         form = UserForm()
 
