@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from .forms import UserForm
+from vendor.forms import VendorForm
 from .models import User
 
 
@@ -24,3 +25,16 @@ def registerUser(request):
         'form':form,
     }
     return render(request, 'accounts/registerUser.html', context)
+
+
+def registerVendor(request):
+
+    form = UserForm()
+    v_form = VendorForm()
+
+    context = {
+        'form': form,
+        'v_form': v_form
+    }
+    
+    return render(request, 'accounts/registerVendor.html', context)
