@@ -5,11 +5,16 @@ from .forms import UserForm
 from accounts.models import UserProfile
 from vendor.forms import VendorForm
 from .models import User
+from django.contrib.auth import authenticate, login, logout     
 
 
 def registerUser(request):
 
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        messages.add_message(request, messages.WARNING, 'You are already logged in')
+        return redirect('dashboard')
+
+    elif request.method == 'POST':
         form = UserForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
@@ -30,8 +35,11 @@ def registerUser(request):
 
 def registerVendor(request):
 
-    if request.method == 'POST':
+    if request.user.is_authenticated:
+        messages.add_message(request, messages.WARNING, 'You are already logged in')
+        return redirect('dashboard')
 
+    elif request.method == 'POST':
         form = UserForm(request.POST)
         v_form = VendorForm(request.POST, request.FILES)
         if form.is_valid() and v_form.is_valid():
@@ -58,13 +66,31 @@ def registerVendor(request):
 
     return render(request, 'accounts/registerVendor.html', context)
 
-def login(request):
+def user_login(request):
+    if request.user.is_authenticated:
+        messages.add_message(request, messages.WARNING, 'You are already logged in')
+        return redirect('dashboard')
+
+    elif request.method == 'POST':
+        email = request.POST['email']
+        password = request.POST['password']
+        user = authenticate(request, email=email, password=password)
+        if user is not None:
+            login(request, user)
+            print(request)
+            messages.add_message(request, messages.SUCCESS, 'You are logged in')
+            return redirect('dashboard')
+        else:
+            messages.add_message(request, messages.ERROR, 'Invalid login credentials')
+            return redirect('login')
     return render(request, 'accounts/login.html')
 
 
-def logout(request):
-    pass
+def user_logout(request):
+    logout(request)
+    messages.add_message(request, messages.INFO, 'You are logged out')
+    return redirect('login')
 
 
 def dashboard(request):
-    pass
+    return render(request, 'accounts/dashboard.html')
