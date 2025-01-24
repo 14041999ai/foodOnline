@@ -5,14 +5,15 @@ from .forms import UserForm
 from accounts.models import UserProfile
 from vendor.forms import VendorForm
 from .models import User
-from django.contrib.auth import authenticate, login, logout     
+from django.contrib.auth import authenticate, login, logout
+from accounts.utils import detectUser     
 
 
 def registerUser(request):
 
     if request.user.is_authenticated:
         messages.add_message(request, messages.WARNING, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect(my_account)
 
     elif request.method == 'POST':
         form = UserForm(request.POST)
@@ -37,7 +38,7 @@ def registerVendor(request):
 
     if request.user.is_authenticated:
         messages.add_message(request, messages.WARNING, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect(my_account)
 
     elif request.method == 'POST':
         form = UserForm(request.POST)
@@ -63,13 +64,14 @@ def registerVendor(request):
         'form': form,
         'v_form': v_form
     }
-
     return render(request, 'accounts/registerVendor.html', context)
 
+
 def user_login(request):
+
     if request.user.is_authenticated:
         messages.add_message(request, messages.WARNING, 'You are already logged in')
-        return redirect('dashboard')
+        return redirect(my_account)
 
     elif request.method == 'POST':
         email = request.POST['email']
@@ -77,9 +79,9 @@ def user_login(request):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
-            print(request)
             messages.add_message(request, messages.SUCCESS, 'You are logged in')
-            return redirect('dashboard')
+            redirectUrl = detectUser(user)
+            return redirect(my_account)
         else:
             messages.add_message(request, messages.ERROR, 'Invalid login credentials')
             return redirect('login')
@@ -87,10 +89,24 @@ def user_login(request):
 
 
 def user_logout(request):
+
     logout(request)
     messages.add_message(request, messages.INFO, 'You are logged out')
     return redirect('login')
 
 
-def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+def my_account(request):
+
+    user = request.user
+    redirectUrl = detectUser(user)
+    return redirect(redirectUrl)
+
+
+def vendorDashboard(request):
+
+    return HttpResponse("Welcome to the Vendor Dashboard!")
+
+
+def customerDashboard(request):
+
+    return HttpResponse("Welcome to the Customer Dashboard!")
