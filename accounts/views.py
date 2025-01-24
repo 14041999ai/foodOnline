@@ -6,7 +6,8 @@ from accounts.models import UserProfile
 from vendor.forms import VendorForm
 from .models import User
 from django.contrib.auth import authenticate, login, logout
-from accounts.utils import detectUser     
+from accounts.utils import detectUser
+from django.contrib.auth.decorators import login_required
 
 
 def registerUser(request):
@@ -95,6 +96,7 @@ def user_logout(request):
     return redirect('login')
 
 
+@login_required(login_url='login')
 def my_account(request):
 
     user = request.user
@@ -102,11 +104,13 @@ def my_account(request):
     return redirect(redirectUrl)
 
 
+@login_required(login_url='login')
 def vendorDashboard(request):
 
-    return HttpResponse("Welcome to the Vendor Dashboard!")
+    return render(request, 'accounts/vendorDashboard.html')
 
 
+@login_required(login_url='login')
 def customerDashboard(request):
 
-    return HttpResponse("Welcome to the Customer Dashboard!")
+    return render(request, 'accounts/customerDashboard.html')
