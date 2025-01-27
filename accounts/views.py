@@ -162,3 +162,15 @@ def vendorDashboard(request):
 def customerDashboard(request):
 
     return render(request, 'accounts/customerDashboard.html')
+
+
+def forgot_password(request):
+    return render(request, 'accounts/forgot_password.html')
+
+
+def reset_password_validate (request, uidb64, token):
+    return render(request, 'accounts/forgot_password.html')
+
+
+def reset_password(request):
+    return render(request, 'accounts/reset_password.html')
