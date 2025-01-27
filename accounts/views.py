@@ -46,7 +46,9 @@ def registerUser(request):
             user.save()
 
             # send verification email
-            send_verification_email(request, user)
+            mail_subject = 'Activation link has been sent to your email address'
+            email_template = 'accounts/emails/account_verification_email.html'
+            send_verification_email(request, user, mail_subject, email_template)
 
             messages.add_message(request, messages.SUCCESS, "Your account has been created successfully")
             return  redirect('registerUser')
@@ -80,7 +82,9 @@ def registerVendor(request):
             vendor.save()
 
             # send verification email
-            send_verification_email(request, user)
+            mail_subject = 'Activation link has been sent to your email address'
+            email_template = 'accounts/emails/account_verification_email.html'
+            send_verification_email(request, user, mail_subject, email_template)
 
             messages.add_message(request, messages.SUCCESS, "Your account has been created successfully. Please wait for approval.")
             return redirect('registerVendor')
@@ -165,6 +169,20 @@ def customerDashboard(request):
 
 
 def forgot_password(request):
+
+    if request.method == 'POST':
+        #check if user with email exist .If true then send the reset password link else return error
+        email = request.POST['email']
+        user = User.objects.get(email__exact=email)
+        if user is not None:
+            mail_subject = 'Reset your password'
+            email_template = 'accounts/emails/reset_password_email.html'
+            send_verification_email(request, user, mail_subject, email_template)
+            messages.add_message(request, messages.SUCCESS, 'Password reset link is sent to your email address.')
+            return redirect('login')
+        else:
+            messages.error(request, 'Account does not exist')
+            return redirect('forgot_password')
     return render(request, 'accounts/forgot_password.html')
 
 
