@@ -2,6 +2,7 @@ from django.forms import ModelForm
 from accounts.models import User
 from django import forms
 from django.core.exceptions import ValidationError
+from accounts.models import UserProfile
 
 
 class UserForm(ModelForm):
@@ -21,3 +22,10 @@ class UserForm(ModelForm):
             raise forms.ValidationError(
                     "Password does not match!"
                 )
+
+
+class UserProfileForm(ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ['profile_picture', 'cover_photo', 'address_line_1', 'address_line_2', 'country', 'state', 'city', 'pin_code', 'latitude', 'longitude']

@@ -71,7 +71,7 @@ class User(AbstractBaseUser):
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
-    
+
     def has_module_perms(self, app_label):
         return True
 
@@ -84,8 +84,6 @@ class User(AbstractBaseUser):
         elif self.role == 2:
             user_role = 'Customer'
             return user_role
-
-
 
 
 class UserProfile(models.Model):
@@ -108,5 +106,4 @@ class UserProfile(models.Model):
 
     def get_full_address(self):
         return f'{self.address_line_1}, {self.address_line_2}'
-
-
+        
