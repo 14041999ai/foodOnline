@@ -3,6 +3,7 @@ from accounts.models import User
 from django import forms
 from django.core.exceptions import ValidationError
 from accounts.models import UserProfile
+from accounts.validators import allow_only_image_validators
 
 
 class UserForm(ModelForm):
@@ -25,6 +26,9 @@ class UserForm(ModelForm):
 
 
 class UserProfileForm(ModelForm):
+
+    profile_picture = forms.FileField(validators=[allow_only_image_validators])
+    cover_photo = forms.FileField(validators=[allow_only_image_validators])
 
     class Meta:
         model = UserProfile
