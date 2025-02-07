@@ -15,20 +15,28 @@ autocomplete.addListener('place_changed', onPlaceChanged);
 function onPlaceChanged (){
     var place = autocomplete.getPlace();
 
-    var geocoder = new google.maps.Geocoder()
-    var address = document.getElementById('id_address').value
-
-    geocoder.geocode({'address': address}, function(results, status){
-        console.log('results ->', results)
-        console.log('status ->', status)
-    })
-
     // User did not select the prediction. Reset the input field or alert()
     if (!place.geometry){
         document.getElementById('id_address').placeholder = "Start typing...";
     }
     else{
-        console.log('place name=>', place.name)
+        // console.log('place name=>', place.name)
     }
     // get the address components and assign them to the fields
+    var geocoder = new google.maps.Geocoder()
+    var address = document.getElementById('id_address').value
+
+    geocoder.geocode({'address': address}, function(results, status){
+
+        if(status == google.maps.GeocoderStatus.OK){
+            var latitude = results[0].geometry.location.lat()
+            var longitude  = results[0].geometry.location.lng()
+
+            $('#id_latitude').val(latitude)
+            $('#id_longitude').val(longitude)
+
+            $('#id_address').val(address)
+        }
+    })
+
 }
