@@ -15,7 +15,24 @@
                     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
                         <div class="user-dashboard loader-holder">
                             <div class="user-holder">
-                                <h5>Build your menu here</h5>                       
+                                <h5 class="text-uppercase">Build your Food Menu</h5>
+                                <hr>
+                                <h6>Menu Categories</h6>
+                                <a href="#" class="btn btn-success float-right m-1"><i class="fa fa-plus" area-hidden="true"></i>Add Food</a>
+                                <a href="#" class="btn btn-info float-right m-1"><i class="fa fa-plus" area-hidden="true"></i>Add Categories</a>
+                                <table class="table table-hover table-borderless">
+                                    <tbody>
+                                    {% for cat in categories %}
+                                      <tr>
+                                        <td class="text-left">{{forloop.counter}}</td>
+                                        <td class="text-left"><a href=""><p class="mb-0 font-weight-bold">{{cat}}</p>
+                                        <small class="text-muted">{{cat.description}}</small>
+                                        </a></td>
+                                        <td><i class="fa fa-pencil" area-hidden="true"></i> &nbsp; <i class="fa fa-trash text-danger" area-hidden="true"></i></td>
+                                      </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                  </table>                      
                             </div>
                         </div>
                     </div>
