@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
 from menu.models import Category, FoodItem
-from menu.forms import CategoryForm
+from menu.forms import CategoryForm, FoodItemForm
 from django.template.defaultfilters import slugify
 
 def get_vendor(request):
@@ -110,3 +110,23 @@ def edit_category(request, pk=None):
         'cat': category
     }
     return render(request, 'vendor/edit_category.html', context)
+
+def add_food(request):
+
+    if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES)
+        if form.is_valid():
+            food_title = form.cleaned_data['food_title']
+            food = form.save(commit=False)
+            food.vendor = get_vendor(request)
+            food.slug = slugify(food_title)
+            form.save()
+            messages.add_message(request, messages.SUCCESS, 'FoodItem added successfully!')
+            return redirect('food_items_by_category', food.category.id)
+    else:
+        form = FoodItemForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'vendor/add_food.html', context)

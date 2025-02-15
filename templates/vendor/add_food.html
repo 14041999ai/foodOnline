@@ -18,31 +18,52 @@
                                 <h5 class="text-uppercase">Build your Food Menu</h5>
                                 <hr>
                                 <h6>Add New Food</h6>
-                                <form action="{% url 'add_food'%}" method="POST">
+                                <form action="{% url 'add_food'%}" method="POST" enctype="multipart/form-data">
                                     {% csrf_token %}
-                                    <div class="form-fields-set">
-                                        <div class="row">
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <div class="field-holder">
-                                                    <label>Category *</label>
-                                                    {{form.category_name}}
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                <div class="field-holder">
-                                                    <label>Description</label>
-                                                    {{form.description}}
-                                                </div>
-                                            </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class="field-holder">
+                                            <label>Food title *</label>
+                                            {{ form.food_title }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 ">
+                                        <div class="field-holder">
+                                            <label>Food Category *</label>
+                                            {{ form.category }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12 ">
+                                        <div class="field-holder">
+                                            <label>Description</label>
+                                            {{ form.description }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12 ">
+                                        <div class="field-holder">
+                                            <label>Price *</label>
+                                            {{ form.price }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="field-holder">
+                                            <label>Image</label>
+                                            {{ form.image }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <div class="field-holder">
+                                            <label>Is Available?</label>
+                                            {{ form.is_available }}
                                         </div>
                                     </div>
                                     {% for field in form %}
                                         {% if field.errors %}
                                             {% for error in field.errors %}
-                                                <li style="color: red;">{{error}}</li>
+                                            <li style="color: red;">{{error}}</li>
                                             {% endfor %}
                                         {% endif %}
                                     {% endfor %}
+                                    <br>
                                     <button type="submit" class="btn btn-info"><i class="fa fa-check" area-hidden="true"></i>Create</button>
                                 </form>
                             </div>
