@@ -36,8 +36,7 @@
                                             <span class="badge badge-success">Available</span>
                                             {% else %}
                                             <span class="badge badge-danger">Non Available</span>
-                                            {% endif %}
-                                        </td>
+                                            {% endif %}                           </td>
                                         <td><a style="color: unset;" href="{% url 'edit_food' food.id %}"><i class="fa fa-pencil" area-hidden="true"></i></a> &nbsp;<a href="{% url 'delete_food' food.id %}" onclick="return confirm('Are you sure you want to delete this food?')" style="color: reset;"><i class="fa fa-trash text-danger" area-hidden="true"></i></a></td>
                                       </tr>
                                     {% endfor %}
