@@ -133,18 +133,19 @@ def delete_category(request, pk=None):
 @user_passes_test(check_role_vendor)
 def add_food(request):
 
+    vendor = get_vendor(request)
     if request.method == 'POST':
-        form = FoodItemForm(request.POST, request.FILES)
+        form = FoodItemForm(request.POST, request.FILES, vendor=vendor)
         if form.is_valid():
             food_title = form.cleaned_data['food_title']
             food = form.save(commit=False)
-            food.vendor = get_vendor(request)
+            food.vendor = vendor
             food.slug = slugify(food_title)
             form.save()
             messages.add_message(request, messages.SUCCESS, 'FoodItem added successfully!')
             return redirect('food_items_by_category', food.category.id)
     else:
-        form = FoodItemForm()
+        form = FoodItemForm(vendor=vendor)
 
     context = {
         'form': form,
@@ -157,18 +158,19 @@ def add_food(request):
 def edit_food(request, pk=None):
 
     food = FoodItem.objects.get(id=pk)
+    vendor = get_vendor(request)
     if request.method == 'POST':
         form = FoodItemForm(request.POST, request.FILES, instance=food)
         if form.is_valid():
             food_title = form.cleaned_data['food_title']
             food = form.save(commit=False)
-            food.vendor = get_vendor(request)
+            food.vendor = vendor
             food.slug = slugify(food_title)
             form.save()
             messages.add_message(request, messages.SUCCESS, 'FoodItem updated successfully!')
             return redirect('food_items_by_category', food.category.id)
     else:
-        form = FoodItemForm(instance=food)
+        form = FoodItemForm(vendor=vendor, instance=food)
 
     context = {
         'form': form,
