@@ -9,3 +9,10 @@ def marketplace(request):
         'vendor_count': vendor_count
     }
     return render(request, 'marketplace/listings.html', context)
+
+def vendor_detail(request, vendor_slug):
+    vendor = Vendor.objects.get(slug=vendor_slug)
+    context = {
+        "vendor": vendor
+    }
+    return render(request, 'marketplace/vendor_detail.html', context)
