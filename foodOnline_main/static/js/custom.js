@@ -64,3 +64,10 @@ function onPlaceChanged (){
     }
 
 }
+
+$(document).ready(function(e){
+    $('.add_to_cart').on('click', function(e){
+        e.preventDefault();
+        alert('test123');
+    })
+});
