@@ -21,9 +21,15 @@ def vendor_detail(request, vendor_slug):
     prefetch = Prefetch("fooditems", queryset=available_fooditems)
     categories = Category.objects.filter(vendor=vendor).prefetch_related(prefetch)
 
+    if request.user.is_authenticated:
+        cart_items = Cart.objects.filter(user=request.user)
+    else:
+        cart_items = None
+
     context = {
         "vendor": vendor,
-        "categories": categories
+        "categories": categories,
+        "cart_items": cart_items,
     }
     return render(request, 'marketplace/vendor_detail.html', context)
 
