@@ -32,6 +32,7 @@
                                                         <a href="#" class="decrease_cart" style="margin-right: 28px;" data-id="{{cart_item.fooditem.id}}" data-url="{% url 'decrease_cart' cart_item.fooditem.id %}"><i class="icon-minus text-color"></i></a>
                                                         <label id="qty-{{cart_item.fooditem.id}}">0</label>
                                                         <a href="#" class="add_to_cart" data-id="{{cart_item.fooditem.id}}" data-url="{% url 'add_to_cart' cart_item.fooditem.id %}"><i class="icon-plus4 text-color"></i></a>
+                                                        <a href="#" class="delete_cart" data-id="{{cart_item.fooditem.id}}" data-url="{% url 'delete_cart' cart_item.id %}"><i class="icon-delete text-color"></i></a>
                                                     </div>
                                                 </li>
                                                 {% endfor%}

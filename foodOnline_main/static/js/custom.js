@@ -139,5 +139,27 @@ $(document).ready(function(e){
         // console.log(qty)
         $('#'+the_id).html(qty)
     })
+
+
+    // delete cart item
+    $('.delete_cart').on('click', function(e){
+        e.preventDefault();
+        
+        cart_id = $(this).attr('data-id')
+        url = $(this).attr('data-url')
+
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success: function(response){
+                if(response.status == 'Failed'){
+                    swal(response.message, '', 'error')
+                }else{
+                    $('#cart-counter').html(response.cart_counter["cart_count"]);
+                    swal(response.status, response.message, "success")
+                }
+            }
+        })
+    })
     
 });
