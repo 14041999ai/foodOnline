@@ -99,15 +99,17 @@ $(document).ready(function(e){
     $('.item_qty').each(function(){
         var the_id = $(this).attr('id')
         var qty = $(this).attr('data-qty')
-        // console.log(qty)
         $('#'+the_id).html(qty)
     })
 
+
+    // decrease cart
     $('.decrease_cart').on('click', function(e){
         e.preventDefault();
         
         food_id = $(this).attr('data-id')
         url = $(this).attr('data-url')
+        cart_id = $(this).attr('id')
         data = {
             'food_id':food_id,
         }
@@ -127,6 +129,10 @@ $(document).ready(function(e){
                 }else{
                     $('#cart-counter').html(response.cart_counter["cart_count"]);
                     $('#qty-'+food_id).html(response.qty)
+                    if(window.location.pathname == '/cart/'){
+                        removeCartItem(response.qty, cart_id);
+                        checkEmptyCart();
+                    }
                 }
             }
         })
