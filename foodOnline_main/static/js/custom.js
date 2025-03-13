@@ -64,7 +64,7 @@ function onPlaceChanged (){
     }
 
 }
-
+// add item to cart
 $(document).ready(function(e){
     $('.add_to_cart').on('click', function(e){
         e.preventDefault();
@@ -90,6 +90,11 @@ $(document).ready(function(e){
                 else{
                     $('#cart-counter').html(response.cart_counter["cart_count"]);
                     $('#qty-'+food_id).html(response.qty)
+                    applyCartAmounts(
+                        response.cart_amount["subtotal"],
+                        response.cart_amount["tax"],
+                        response.cart_amount["grand_total"]
+                    )
                 }
             }
         })
@@ -133,6 +138,11 @@ $(document).ready(function(e){
                         removeCartItem(response.qty, cart_id);
                         checkEmptyCart();
                     }
+                    applyCartAmounts(
+                        response.cart_amount["subtotal"],
+                        response.cart_amount["tax"],
+                        response.cart_amount["grand_total"]
+                    )
                 }
             }
         })
@@ -165,6 +175,11 @@ $(document).ready(function(e){
                     swal(response.status, response.message, "success");
                     removeCartItem(0, cart_id);
                     checkEmptyCart();
+                    applyCartAmounts(
+                        response.cart_amount["subtotal"],
+                        response.cart_amount["tax"],
+                        response.cart_amount["grand_total"]
+                    )
                 }
             }
         })
@@ -182,6 +197,14 @@ $(document).ready(function(e){
         var cart_counter = document.getElementById("cart-counter").innerHTML
         if(cart_counter == 0){
             document.getElementById("empty-cart").style.display = "block"
+        }
+    }
+
+    function applyCartAmounts(subtotal, tax, grand_total){
+        if(window.location.pathname == '/cart/'){
+            $('#subtotal').html(subtotal)
+            $('#tax').html(tax)
+            $('#total').html(grand_total)
         }
     }
     
