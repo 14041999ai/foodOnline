@@ -85,7 +85,7 @@ def add_category(request):
             category.save()
             category.slug = slugify(category_name)+"-"+str(category.id)
             category.save()
-            # form.save()
+            form.save()
             messages.add_message(request, messages.SUCCESS, 'Category added successfully!')
             return redirect('menu_builder')
     else:
@@ -142,8 +142,9 @@ def add_food(request):
             food_title = form.cleaned_data['food_title']
             food = form.save(commit=False)
             food.vendor = vendor
-            food.slug = slugify(food_title)
-            form.save()
+            food.save()
+            food.slug = slugify(food_title)+"-"+str(food.id)
+            food.save()
             messages.add_message(request, messages.SUCCESS, 'FoodItem added successfully!')
             return redirect('food_items_by_category', food.category.id)
     else:
@@ -167,8 +168,9 @@ def edit_food(request, pk=None):
             food_title = form.cleaned_data['food_title']
             food = form.save(commit=False)
             food.vendor = vendor
-            food.slug = slugify(food_title)
-            form.save()
+            food.save()
+            food.slug = slugify(food_title)+"-"+str(food.id)
+            food.save()
             messages.add_message(request, messages.SUCCESS, 'FoodItem updated successfully!')
             return redirect('food_items_by_category', food.category.id)
     else:

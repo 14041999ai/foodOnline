@@ -42,9 +42,9 @@ class UserProfileForm(ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        print(cleaned_data)
         instance = getattr(self, 'instance', None)
         if instance and instance.id:
-            cleaned_data['latitude'] = instance.latitude
-            cleaned_data['longitude'] = instance.longitude
-
+            cleaned_data['latitude'] = cleaned_data.get('latitude', instance.latitude)
+            cleaned_data['longitude'] = cleaned_data.get('longitude', instance.longitude)
         return cleaned_data
