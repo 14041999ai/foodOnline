@@ -6,6 +6,7 @@ from django.db.models import Prefetch
 from .models import Cart
 from .context_processors import get_cart_counter, get_cart_amounts
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 def marketplace(request):
@@ -116,7 +117,8 @@ def search(request):
     radius = request.GET['radius']
     keyword = request.GET['keyword']
 
-    vendors = Vendor.objects.filter(vendor_name__icontains=keyword, is_approved=True, user__is_active=True)
+    fetch_vendor_by_food_items = FoodItem.objects.filter(food_title__icontains=keyword, is_available=True).values_list('vendor', flat=True)
+    vendors = Vendor.objects.filter(Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True)|Q(id__in=fetch_vendor_by_food_items))
     vendor_count = vendors.count()
     context = {
         'vendors': vendors,
