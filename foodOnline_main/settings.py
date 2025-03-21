@@ -156,3 +156,8 @@ EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'foodOnline Marketplace <foodOnline0581@gmail.com>'
 GOOGLE_API_KEY = config('GOOGLE_API_KEY')
+
+import os
+# Manually specify GDAL and GEOS library paths if necessary
+GDAL_LIBRARY_PATH = os.getenv("GDAL_LIBRARY_PATH", "/usr/lib/libgdal.so")
+GEOS_LIBRARY_PATH = os.getenv("GEOS_LIBRARY_PATH", "/usr/lib/libgeos_c.so")
