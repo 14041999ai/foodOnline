@@ -109,7 +109,7 @@ class UserProfile(models.Model):
 
     def save(self, *args, **kwargs):
         if self.latitude and self.longitude:
-            self.location = Point(float(self.latitude), float(self.longitude), srid=4326)
+            self.location = Point(float(self.longitude), float(self.latitude), srid=4326)
             return super(UserProfile, self).save(*args, **kwargs)
         return super(UserProfile, self).save(*args, **kwargs)
 
