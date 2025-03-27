@@ -8,7 +8,8 @@ from .context_processors import get_cart_counter, get_cart_amounts
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
-from django.contrib.gis.measure import D, Distance
+from django.contrib.gis.measure import D
+from django.contrib.gis.db.models.functions import Distance
 
 
 def marketplace(request):
@@ -126,7 +127,7 @@ def search(request):
         vendors = Vendor.objects.filter(Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True)|Q(id__in=fetch_vendor_by_food_items))
         if latitude and longitude and radius:
             pnt = GEOSGeometry("POINT(%s %s)" % (longitude, latitude), srid=4326)
-            vendors = Vendor.objects.filter(Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True)|Q(id__in=fetch_vendor_by_food_items), user_profile__location__distance_lte=(pnt, D(km=radius))).annotate(distance=Distance("vendor__user_profile__location", pnt)).order_by("distance")
+            vendors = Vendor.objects.filter(Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True)|Q(id__in=fetch_vendor_by_food_items), user_profile__location__distance_lte=(pnt, D(km=radius))).annotate(distance=Distance("user_profile__location", pnt)).order_by("distance")
 
             for v in vendors:
                 v.kms = v.distance.km, 1
