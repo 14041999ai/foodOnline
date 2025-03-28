@@ -19,7 +19,7 @@
 								<ul>
 									<li class="location-has-children choose-location">
 										<form action="#">
-											<input type="text" value="" name="location" placeholder="Enter your delivery location" autocomplete="off">
+											<input type="text" value="" name="location" id="location" placeholder="Your current location" onclick="getLocation()" autocomplete="off">
 											<span id="foodbakery_radius_location_open" class="foodbakery-radius-location"><i class="icon-target5"></i></span>
 										</form>
 										
@@ -52,3 +52,26 @@
 				</div>
 			</div>
 		</header>
+
+	<script>
+		const x = document.getElementById("location");
+		
+		function getLocation() {
+			if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(success, error);
+			} else { 
+			x.innerHTML = "Geolocation is not supported by this browser.";
+			}
+		}
+		
+		function success(position) {
+
+			var lat = position.coords.latitude
+			var long = position.coords.longitude
+			x.value = lat +" ,"+long
+		}
+		
+		function error() {
+			alert("Sorry, no position available.");
+		}
+</script>
