@@ -70,7 +70,16 @@
 			var long = position.coords.longitude
 			// x.value = lat +" ,"+long
 			var GOOGLE_API_KEY = "{{GOOGLE_API_KEY}}"
-			var url = ""
+			var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng="+lat+","+long+"&key="+GOOGLE_API_KEY
+
+			$.ajax({
+				url: url,
+				type: "GET",
+				success: function(response){
+					var current_location = response.results[0].formatted_address
+					x.value = current_location
+				}
+			})
 		}
 		
 		function error() {
