@@ -8,10 +8,10 @@ from django.contrib.gis.db.models.functions import Distance
 
 def home(request):
     if 'lat' in request.GET:
-        lat = request.objects.GET('lat')
-        lng = request.objects.GET('lng')
+        lat = request.GET.get('lat')
+        lng = request.GET.get('lng')
         pnt = GEOSGeometry("POINT(%s %s)" % (lng, lat), srid=4326)
-        vendors = Vendor.objects.filter(user_profile__location__distance_lte=(pnt, D(km=100))).annotate(distance=Distance("user_profile__location", pnt)).order_by("distance")
+        vendors = Vendor.objects.filter(user_profile__location__distance_lte=(pnt, D(km=1000))).annotate(distance=Distance("user_profile__location", pnt)).order_by("distance")
 
         for v in vendors:
             v.kms = round(v.distance.km, 1)

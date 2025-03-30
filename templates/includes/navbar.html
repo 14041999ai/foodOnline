@@ -83,7 +83,7 @@
 					var current_location = response.results[0].formatted_address
 					x.value = current_location
 					sessionStorage.setItem("current_location", current_location)
-					window.location = '?lat'+lat+'&lng'+long
+					window.location = '?lat=' + lat + '&lng=' + long;
 				}
 			})
 		}
