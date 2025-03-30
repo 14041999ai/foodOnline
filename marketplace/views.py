@@ -130,7 +130,7 @@ def search(request):
             vendors = Vendor.objects.filter(Q(vendor_name__icontains=keyword, is_approved=True, user__is_active=True)|Q(id__in=fetch_vendor_by_food_items), user_profile__location__distance_lte=(pnt, D(km=radius))).annotate(distance=Distance("user_profile__location", pnt)).order_by("distance")
 
             for v in vendors:
-                v.kms = v.distance.km, 1
+                v.kms = round(v.distance.km, 1)
 
         vendor_count = vendors.count()
         context = {
