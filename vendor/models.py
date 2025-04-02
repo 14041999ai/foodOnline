@@ -35,3 +35,5 @@ class Vendor(models.Model):
                     mail_subject = "We're sorry! You are not eligible for publishing your food menu on our marketplace."
                     send_notification_mail(mail_subject, mail_template, context)
         return super(Vendor, self).save(*args, **kwargs)
+
+class OpeningHour
