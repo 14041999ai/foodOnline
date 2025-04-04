@@ -190,3 +190,6 @@ def delete_food(request, pk=None):
     food.delete()
     messages.add_message(request, messages.SUCCESS, "FoodItem got deleted successfully.")
     return redirect('food_items_by_category', food.category.id)
+
+def opening_hours(request):
+    pass
