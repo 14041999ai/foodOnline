@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from accounts.forms import UserProfileForm
-from vendor.models import Vendor
+from vendor.models import Vendor, OpeningHour
 from accounts.models import UserProfile
-from vendor.forms import VendorForm
+from vendor.forms import VendorForm, OpeningHourForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
@@ -192,4 +192,11 @@ def delete_food(request, pk=None):
     return redirect('food_items_by_category', food.category.id)
 
 def opening_hours(request):
-    pass
+    opening_hours = OpeningHour.objects.filter(vendor=get_vendor(request))
+    forms = OpeningHourForm()
+    context = {
+        'form': forms,
+        'opening_hours': opening_hours,
+    }
+
+    return render(request, 'vendor/opening_hours.html', context)
