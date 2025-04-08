@@ -9,6 +9,7 @@ from accounts.views import check_role_vendor
 from menu.models import Category, FoodItem
 from menu.forms import CategoryForm, FoodItemForm
 from django.template.defaultfilters import slugify
+from django.http import HttpResponse
 
 def get_vendor(request):
 
