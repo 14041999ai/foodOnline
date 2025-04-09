@@ -203,4 +203,21 @@ def opening_hours(request):
     return render(request, 'vendor/opening_hours.html', context)
 
 def add_opening_hours(request):
+
+    if request.uset.is_authenticated:
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest' and request.method == 'POST':
+            day = request.POST.get('hour')
+            from_hour = request.POST.get('from_hour')
+            to_hour = request.POST.get('to_hour')
+            is_closed = request.POST.get('is_closed')
+        
+        try:
+            hour = OpeningHour.objects.create(vendor=get_vendor(requet), day=day, from_hour=from_hour, to_hour=to_hour, is_closed=is_closed)
+            response = {'status': 'success'}
+            return JsonResponse(response)
+
+        except IntegrityError as e:
+            response = {'status': 'failed'}
+            return JsonResponse(response)
+            
     return HttpResponse('Add opening hour')
