@@ -239,6 +239,14 @@ $(document).ready(function(e){
                 },
                 success: function(response){
                     console.log(response)
+                    if(response.status == 'success'){
+                        html = '<tr><td><b>'+response.day+'</b></td><td>'+response.from_hour+' - '+response.to_hour+'</td><td><a href="#">Remove</a></td></tr>'
+                        $(".opening_hours").append(html)
+                        document.getElementById("opening_hours").reset()
+                    }else{
+                        // swal(response.message, '', "error")
+                        console.log(response.message)
+                    }
                 }
             })
         }else{
