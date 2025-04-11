@@ -217,13 +217,13 @@ $(document).ready(function(e){
         var csrf_token = $('input[name=csrfmiddlewaretoken]').val()
         var url = document.getElementById('add_hour_url').value
 
-        console.log(day, from_hour, to_hour, is_closed, csrf_token)
+        // console.log(day, from_hour, to_hour, is_closed, csrf_token)
         if(is_closed){
             is_closed = "True"
             condition = "day != ''"
         }
         else{
-            is_closed = "True"
+            is_closed = "False"
             condition = "day != '' && from_hour !='' && to_hour !=''"
         }
         if(eval(condition)){
