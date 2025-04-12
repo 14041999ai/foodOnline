@@ -221,12 +221,11 @@ def add_opening_hours(request):
                     response = {'status': 'success', 'id': hour.id, 'day': day.get_day_display(), 'is_closed': 'Closed'}
                 else:
                     response = {'status': 'success', 'id': hour.id, 'day': day.get_day_display(), 'from_hour': day.from_hour, 'to_hour': day.to_hour}
-            # response = {'status': 'success'}
             return JsonResponse(response)
 
         except IntegrityError as e:
             print(e)
-            response = {'status': 'failed'}
+            response = {'status': 'failed', 'message': from_hour+'-'+to_hour+' already exists for this day!'}
             return JsonResponse(response)
             
     return HttpResponse('Add opening hour')
