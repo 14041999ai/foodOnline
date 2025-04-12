@@ -229,3 +229,11 @@ def add_opening_hours(request):
             return JsonResponse(response)
             
     return HttpResponse('Add opening hour')
+
+def remove_opening_hours(request, pk=None):
+
+    if request.user.is_authenticated:
+        hour = get_object_or_404(OpeningHour, id=pk)
+        hour.delete()
+        response = {"status": "success", "id": pk}
+        return JsonResponse(response)

@@ -258,5 +258,22 @@ $(document).ready(function(e){
         }
 
     })
+
+    $('.remove_hour').on('click', function(e){
+        e.preventDefault()
+        var url = $(this).attr('data-url')
+        $.ajax({
+            type: 'GET',
+            url: url,
+            success:function(response){
+                var element_id = 'hour-'+response.id
+                document.getElementById(element_id).remove()
+            }
+
+        })
+
+
+
+    })
     
 });
