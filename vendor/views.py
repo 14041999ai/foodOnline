@@ -13,6 +13,7 @@ from django.http import HttpResponse
 from django.db import IntegrityError
 from django.http import JsonResponse
 
+
 def get_vendor(request):
 
     vendor = Vendor.objects.get(user=request.user)
