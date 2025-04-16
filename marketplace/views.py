@@ -10,7 +10,8 @@ from django.db.models import Q
 from django.contrib.gis.geos import GEOSGeometry
 from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
-from datetime import date, datetime
+from datetime import date, datetime, time
+from zoneinfo import ZoneInfo 
 
 
 def marketplace(request):
@@ -33,22 +34,26 @@ def vendor_detail(request, vendor_slug):
     today_date = date.today()
     today = today_date.isoweekday()
 
-
     current_opening_hours = OpeningHour.objects.filter(vendor=vendor, day=today)
-    now = datetime.now()
+    now = datetime.now(ZoneInfo("Asia/Kolkata"))
     # current_time = now.strftime("%H:%M:%S")
     current_time = now.time()
+    print(f"current_time {current_time}")
     
     is_open = False
     for i in current_opening_hours:
         start = datetime.strptime(i.from_hour, "%I:%M %p").time()
         end = datetime.strptime(i.to_hour, "%I:%M %p").time()
 
+        print(f"start_time {start}")
+        print(f"end_time {end}")
+
         if current_time > start and current_time < end:
             is_open = True
             break
         else:
             is_open = False
+    # print(f"is_open {vendor.is_open()}")
 
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)

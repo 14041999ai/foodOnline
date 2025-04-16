@@ -1,7 +1,8 @@
 from django.db import models
 from accounts.models import User, UserProfile
 from accounts.utils import send_notification_mail
-from datetime import time
+from datetime import date, datetime, time
+from zoneinfo import ZoneInfo
 
 class Vendor(models.Model):
 
@@ -16,6 +17,31 @@ class Vendor(models.Model):
 
     def __str__(self):
         return self.vendor_name
+
+    @property
+    def is_open(self):
+
+        # check current date opening hours
+        today_date = date.today()
+        today = today_date.isoweekday()
+
+        current_opening_hours = OpeningHour.objects.filter(vendor=self, day=today)
+        now = datetime.now(ZoneInfo("Asia/Kolkata"))
+        current_time = now.time()
+
+        is_open = False
+        for i in current_opening_hours:
+            start = datetime.strptime(i.from_hour, "%I:%M %p").time()
+            end = datetime.strptime(i.to_hour, "%I:%M %p").time()
+
+            if current_time > start and current_time < end:
+                is_open = True
+                break
+            else:
+                is_open = False
+
+        return is_open
+
 
     def save(self, *args, **kwargs):
         # check if update
