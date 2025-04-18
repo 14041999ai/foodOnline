@@ -1,4 +1,4 @@
-from .models import Cart
+from .models import Cart, Tax
 from menu.models import FoodItem
 
 
@@ -28,6 +28,7 @@ def get_cart_amounts(request):
             food_id = item.fooditem.id
             food_item = FoodItem.objects.get(pk=food_id)
             subtotal += (item.quantity*food_item.price)
+        get_tax = Tax.objects.filter(is_active=True)
         grand_total = subtotal+tax
     return dict(subtotal=subtotal, tax=tax, grand_total=grand_total)
 
