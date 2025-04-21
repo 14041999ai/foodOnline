@@ -21,6 +21,7 @@ def get_cart_amounts(request):
     subtotal = 0
     tax = 0
     grand_total = 0
+    tax_dict = {}
 
     if request.user.is_authenticated:
         cart_items = Cart.objects.filter(user=request.user)
@@ -28,7 +29,20 @@ def get_cart_amounts(request):
             food_id = item.fooditem.id
             food_item = FoodItem.objects.get(pk=food_id)
             subtotal += (item.quantity*food_item.price)
+
         get_tax = Tax.objects.filter(is_active=True)
+        for i in get_tax:
+            tax_type = i.tax_type
+            tax_percentage = i.tax_percentage
+            tax_amount = round((tax_percentage*subtotal)/100, 2)
+            tax_dict.update({tax_type: {tax_percentage: tax_amount}})
+        # {'CGST': {'9.00': '2.16'}}
+
+        tax = 0
+        for key in tax_dict.values():
+            for x in key.values():
+                tax = tax + x
+
         grand_total = subtotal+tax
-    return dict(subtotal=subtotal, tax=tax, grand_total=grand_total)
+    return dict(subtotal=subtotal, tax=tax, grand_total=grand_total, tax_dict=tax_dict)
 
