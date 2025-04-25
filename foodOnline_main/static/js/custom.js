@@ -263,7 +263,7 @@ $(document).ready(function(e){
         }
 
     })
-
+    // remove hour functionality
     $('.remove_hour').on('click', function(e){
         e.preventDefault()
         var url = $(this).attr('data-url')
