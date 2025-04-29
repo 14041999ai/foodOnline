@@ -48,3 +48,9 @@ class UserProfileForm(ModelForm):
             cleaned_data['latitude'] = cleaned_data.get('latitude', instance.latitude)
             cleaned_data['longitude'] = cleaned_data.get('longitude', instance.longitude)
         return cleaned_data
+
+
+class UserInfoForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'phone_number']
