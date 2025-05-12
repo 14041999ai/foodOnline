@@ -12,7 +12,7 @@ from django.contrib.gis.measure import D
 from django.contrib.gis.db.models.functions import Distance
 from datetime import date, datetime, time
 from zoneinfo import ZoneInfo 
-
+from orders.forms import OrderForm
 
 def marketplace(request):
     vendors = Vendor.objects.filter(is_approved=True, user__is_active=True)
@@ -173,4 +173,8 @@ def search(request):
         return render(request, 'marketplace/listings.html', context)
 
 def checkout(request):
-    return render(request, 'marketplace/checkout.html')
+    form = OrderForm()
+    context = {
+        'form': form,
+    }
+    return render(request, 'marketplace/checkout.html', context)
