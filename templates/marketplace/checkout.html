@@ -14,9 +14,10 @@
                         <div class="tab-content">
                             <div id="home" class="tab-pane in active">
                                 <div class="menu-itam-holder">
-
+                                    
                                     
                                     <div id="menu-item-list-6272" class="menu-itam-list">
+                                        
                                         <form action="#" method="POST">
                                             {% csrf_token %}
                                             <div class="row">
@@ -81,6 +82,37 @@
                         <div class="tab-content">
                             <div id="home" class="tab-pane in active">
                                 <div class="menu-itam-holder">
+                                    <div id="menu-item-list-6272" class="menu-itam-list">
+                                        <ul>
+                                            {% if cart_items %}
+                                                {% for cart_item in cart_items %}
+                                                <li id="cart-item-{{cart_item.id}}">
+                                                    <div class="image-holder">
+                                                        <img src="{{ cart_item.fooditem.image.url }}" alt="">
+                                                    </div>
+                                                    <div class="text-holder">
+                                                        <h6>{{cart_item.fooditem.food_title}}</h6>
+                                                        <span>{{cart_item.fooditem.description}}</span>
+                                                        <a href="{% url 'vendor_detail' cart_item.fooditem.vendor.slug %}" class="badge badge-warning">{{cart_item.fooditem.vendor}}</a>
+                                                    </div>
+                                                    <div class="quantity" style="display: inline-block; position: absolute; top: 50%; transform: translateY(-50%); margin-top: -10px;">
+                                                        <span>{{cart_item.quantity}} QTY</span>
+                                                    </div>
+                                                    <div class="price-holder">
+                                                        <span class="price">£{{cart_item.fooditem.price}}</span>
+                                                        
+                                                    
+                                                    </div>
+                                                </li>
+                                                {% endfor%}
+                                            {% else %}
+                                            <div class="text-center p-5">
+                                                <h3>Cart is empty</h3>
+                                            </div>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                    
                                     <div>
                                         <ul>
                                             <li style="list-style-type: none;">
