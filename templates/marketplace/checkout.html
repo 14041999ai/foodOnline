@@ -84,7 +84,7 @@
                                 <div class="menu-itam-holder">
                                     <div id="menu-item-list-6272" class="menu-itam-list">
                                         <ul>
-                                            {% if cart_items %}
+                                            
                                                 {% for cart_item in cart_items %}
                                                 <li id="cart-item-{{cart_item.id}}">
                                                     <div class="image-holder">
@@ -105,11 +105,7 @@
                                                     </div>
                                                 </li>
                                                 {% endfor%}
-                                            {% else %}
-                                            <div class="text-center p-5">
-                                                <h3>Cart is empty</h3>
-                                            </div>
-                                            {% endif %}
+                                            
                                         </ul>
                                     </div>
                                     
@@ -135,13 +131,27 @@
                                             {% endfor %}
                                             
                                             <li style="list-style-type: none; font-weight: 600;">
-                                                Total
+                                                TOTAL
                                                 <span class="price float-right">
                                                     <span class="currency">$</span>
                                                     <span id="total">{{grand_total}}</span>
                                                 </span>
                                             </li>
-                                            
+                                            <!-- Select payment method -->
+                                            <h5>SELECT PAYMENT METHOD</h5>
+                                            <div class="payment-method">
+                                                <label>
+                                                    <input type="radio" name="payment_method" value="Paypal">
+                                                    <img src="{% static 'images/PayPal.png' %}" alt="Paypal" width="100">
+                                                </label>
+                                                &emsp;
+                                                <label>
+                                                    <input type="radio" name="payment_method" value="RazorPay">
+                                                    <img src="{% static 'images/razorpay_logo.png' %}" alt="RazorPay" width="100">
+                                                </label>
+                                            </div>
+                                            <!-- Select payment method -->
+
                                             <button type="submit"  class="btn btn-danger w-100 p-2 mt-3">PLACE ORDER</button>
                                         </ul>
                                     </form>
