@@ -20,10 +20,19 @@
                                     </div>
                                     
                                     <div id="menu-item-list-6272" class="menu-itam-list">
-                                        
-
+                                        <div class="billing-address">
+                                            <div><b>{{order.name}}</b></div>
+                                            <div>{{order.address}}</div>
+                                            <div>{{order.city}} - {{order.pin_code}}</div>
+                                            <div>{{order.state}}, {{order.country}}</div>
+                                            <div><b>Phone: </b>{{order.phone}}</div>
+                                            <div><b>Email: </b>{{order.email}}</div>
+                                            <!-- <div><b>Payment: </b>{{order.payment_method}}</div> -->
+                                            <br>
+                                            <div><a href="{% url 'checkout' %}" class="btn btn-outline-danger">Edit</a></div>
+                                            <br>
+                                        </div>
                                     </div>
-                                    
                                 </div>
                             </div>
                             
@@ -41,33 +50,47 @@
                             <div id="home" class="tab-pane in active">
                                 <div class="menu-itam-holder">
                                     <div>
-                                        <li style="list-style-type: none;">
-                                            Subtotal
-                                            <span class="price float-right">
-                                                <span class="currency">$</span>
-                                                <span id="subtotal">{{subtotal}}</span>
-                                            </span>
-                                        </li>
-                                        {% for key, value in tax_dict.items %}
-                                            {% for i, j in value.items %}
-                                                <li style="list-style-type: none;">
-                                                    {{key}} <small>({{i}}%)</small>
-                                                    <span class="price float-right">
-                                                        <span class="currency">$</span>
-                                                        <span id="tax-{{ key }}">{{j}}</span>
-                                                    </span>
-                                                </li>
+                                        <table class="table">
+                                            <tbody>
+                                                {% for item in cart_items %}
+                                                <tr>
+                                                    <td><img src="{{ item.fooditem.image.url}}" width="40" alt="Food Image"></td>
+                                                    <td><b>{{item.fooditem}}</b></td>
+                                                    <td>{{item.quantity}}</td>
+                                                    <td>${{item.fooditem.price}}</td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+
+                                        <ul>
+                                            <li style="list-style-type: none;">
+                                                Subtotal
+                                                <span class="price float-right">
+                                                    <span class="currency">$</span>
+                                                    <span id="subtotal">{{subtotal}}</span>
+                                                </span>
+                                            </li>
+                                            {% for key, value in tax_dict.items %}
+                                                {% for i, j in value.items %}
+                                                    <li style="list-style-type: none;">
+                                                        {{key}} <small>({{i}}%)</small>
+                                                        <span class="price float-right">
+                                                            <span class="currency">$</span>
+                                                            <span id="tax-{{ key }}">{{j}}</span>
+                                                        </span>
+                                                    </li>
+                                                {% endfor %}
                                             {% endfor %}
-                                        {% endfor %}
-                                        
-                                        <li style="list-style-type: none; font-weight: 600;">
-                                            Total
-                                            <span class="price float-right">
-                                                <span class="currency">$</span>
-                                                <span id="total">{{grand_total}}</span>
-                                            </span>
-                                        </li>
-                                          
+                                            
+                                            <li style="list-style-type: none; font-weight: 600;">
+                                                Total
+                                                <span class="price float-right">
+                                                    <span class="currency">$</span>
+                                                    <span id="total">{{grand_total}}</span>
+                                                </span>
+                                            </li>
+                                        </ul>
                                         <a href="{% url 'checkout' %}" class="btn btn-danger  w-100 p-2 mt-3">PROCEED TO CHECKOUT</a>
                                     </div>
                                 </div>
