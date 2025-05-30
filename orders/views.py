@@ -45,4 +45,37 @@ def place_order(request):
 
 def payments(request):
     # check if request is ajax or not
+    if request.headers.get('x-requested-with')=='XMLHttpRequest' and request.method == 'POST':
+
+    # STORE THE PAYMENT DETAILS IN THE PAYMENT MODEL
+        order_number = request.POST.get('order_number')
+        transaction_id = request.POST.get('transaction_id')
+        payment_method = request.POST.get('payment_method')
+        status = request.POST.get('status')
+
+        order = Order.objects.get(user=request.user, order_number=order_number)
+        payment = Payment(
+            user = request.user,
+            transaction_id = transaction_id,
+            payment_method = payment_method,
+            amount = order.total,
+            status = status
+        )
+        payment.save()
+
+        # UPDATE THE ORDER MODEL
+        order.payment = payment
+        order.is_ordered = True
+        order.save()
+        return HttpResponse('Saved!')
+        # MOVE THE CART ITEMS TO ORDERED FOOD MODEL
+
+        # SEND ORDER CONFIRMATION EMAIL TO THE CUSTOMER
+
+        # SEND ORDER RECIEVED EMAIL TO VENDOR
+
+        # CLEAR THE CART IF PAYMENT IS SUCCESS
+
+        # RETURN BACK TO AJAX WITH THE STATUS SUCCESS OR FAILURE
+
     return HttpResponse("Payment view")
