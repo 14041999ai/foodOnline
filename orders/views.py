@@ -42,3 +42,7 @@ def place_order(request):
             print(form.errors)
 
     return render(request, 'orders/place_order.html')
+
+def payments(request):
+    # check if request is ajax or not
+    return HttpResponse("Payment view")
